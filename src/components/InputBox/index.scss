@@ -1,0 +1,15 @@
+@import "../../scss/colors";
+
+.input-box {
+    &__wrapper {
+        input {
+            padding: 0.52vw;
+            border: 2px solid #000;
+
+            &::placeholder {
+                color: $color-gray;
+                font-weight: 600;
+            }
+        }
+    }
+}

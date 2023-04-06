@@ -1,0 +1,14 @@
+@import "../../scss/colors";
+
+.no-content {
+    display: flex;
+    padding: 1vw;
+    box-shadow: 0px 5px 10px 0px rgb(0 0 0 / 50%);
+    border-radius: 5px;
+    background-color: $color-white;
+    justify-content: center;
+
+    &__result-icon {
+        padding-right: 0.2vw;
+    }
+}

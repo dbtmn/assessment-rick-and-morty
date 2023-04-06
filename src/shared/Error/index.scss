@@ -1,0 +1,21 @@
+@import "../../scss/colors";
+
+.error {
+    &__wrapper {
+        display: flex;
+        justify-content: center;
+        padding: 5vw;
+        color: $color-red;
+        background-color: $color-light-red;
+        border-radius: 25px;
+    }
+
+    &__message {
+        font-size: 1.71rem;
+    }
+
+    &__icon {
+        padding-right: 0.42vw;
+        font-size: 2.57rem;
+    }
+}

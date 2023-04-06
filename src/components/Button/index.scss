@@ -1,0 +1,10 @@
+.button {
+    &__wrapper {
+
+        button {
+            &:hover {
+                cursor: pointer;
+            }
+        }
+    }
+}

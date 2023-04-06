@@ -1,0 +1,70 @@
+@import "../../scss/colors";
+
+.search-box {
+    @mixin icon-base {
+        padding-left: 0.41vw;
+        color: $color-black;
+
+        &:hover {
+            cursor: pointer;
+        }
+    }
+
+    &__wrapper {
+        display: flex;
+        margin-bottom: 1vh;
+    }
+
+    &__input-wrapper {
+        display: flex;
+        width: 10vw;
+        height: 4vh;
+        align-items: center;
+        background: #fff;
+        border-radius: 5px;
+    }
+
+    &__search-icon {
+        @include icon-base;
+
+        align-self: center;
+    }
+
+    &__clear-icon {
+        display: none;
+
+        &--visible {
+            @include icon-base;
+
+            display: inherit;
+            align-self: center;
+        }
+    }
+
+    &__input {
+        width: 80%;
+        padding: 0.4vw;
+        border: none;
+        height: 3vh;
+
+        &:focus-visible {
+            outline: none;
+        }
+
+        &::-ms-clear {
+            display: none;
+        }
+
+        &::-webkit-search-decoration,
+        &::-webkit-search-cancel-button,
+        &::-webkit-search-results-button,
+        &::-webkit-search-results-decoration {
+            display: none;
+        }
+
+        &::placeholder {
+            color: $color-gray;
+            font-weight: 600;
+        }
+    }
+}
