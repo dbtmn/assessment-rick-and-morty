@@ -5,3 +5,9 @@ export const getCharactersByName = async (searchName: string) => {
 
     return axios.get(url);
 }
+
+export const getCharacterById = async (id: string) => {
+    const url = `https://rickandmortyapi.com/api/character/${id}`;
+
+    return axios.get(url);
+}

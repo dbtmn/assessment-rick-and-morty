@@ -1,4 +1,5 @@
 import React, { useRef, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { isEmpty } from "lodash";
 import { DataTestId } from "../../constants/DataTestId";
 import { Character } from "../../store/characters/types";
@@ -18,6 +19,7 @@ const SearchBox: React.FunctionComponent<SearchBoxProps> = (props) => {
     const { className = "", searchResult, placeholder = "", onChange, onClick } = props;
     const refSuggestionsMenu = useRef<HTMLDivElement>(null);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const navigate = useNavigate();
     const results = searchResult.slice(0, 6);
 
     const [inputValue, setInput] = useState<string>("");
@@ -77,6 +79,13 @@ const SearchBox: React.FunctionComponent<SearchBoxProps> = (props) => {
         }
     };
 
+    const handleRoute = (id: number) => {
+        navigate({
+            pathname: '/character-detail',
+            search: `?id=${id}`,
+        });
+    };
+
     return <div className={`${className} search-box__wrapper`}>
         <div className="search-box__input-wrapper">
             <input
@@ -101,7 +110,7 @@ const SearchBox: React.FunctionComponent<SearchBoxProps> = (props) => {
             </span>
             {isMenuOpen ? <div ref={refSuggestionsMenu} className="search-box__result-list" id="characters-list">
                 {results.map((character) => <div key={`character-item-${character.id}`} className="search-box-result__item">
-                    <div className="search-box-result__details">
+                    <div className="search-box-result__details" onClick={() => handleRoute(character.id)}>
                         {character.image && <div className="search-box-result__image">
                             <img src={character.image} />
                         </div>}
