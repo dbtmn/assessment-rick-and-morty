@@ -100,8 +100,13 @@ const SearchBox: React.FunctionComponent<SearchBoxProps> = (props) => {
                 search
             </span>
             {isMenuOpen ? <div ref={refSuggestionsMenu} className="search-box__result-list" id="characters-list">
-                {results.map((character) =>
-                    <div key={`character-item-${character.id}`}>{character.name}</div>
+                {results.map((character) => <div key={`character-item-${character.id}`} className="search-box-result__item">
+                    <div className="search-box-result__details">
+                        {character.image && <div className="search-box-result__image">
+                            <img src={character.image} />
+                        </div>}
+                        <div>{character.name}</div></div>
+                </div>
                 )}
             </div> : null}
         </div>

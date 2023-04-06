@@ -8,8 +8,39 @@
     }
 
     &__result-list {
+        width: 9.9vw;
         position: absolute;
         top: calc(100% + 0.05rem);
+        background-color: white;
+    }
+
+    &-result {
+        &__item {
+            padding: 0.2vw;
+        }
+
+        &__image {
+            padding-right: 0.2vw;
+
+            img {
+                width: 2.9rem;
+                height: auto;
+            }
+        }
+
+        &__details {
+            display: flex;
+            align-items: center;
+            padding-top: 0.2vw;
+            padding-left: 0.2vw;
+            padding-right: 0.2vw;
+            background-color: $color-white;
+
+            &:hover {
+                cursor: pointer;
+                background-color: $color-neutral-gray;
+            }
+        }
     }
 
     &__input-wrapper {
