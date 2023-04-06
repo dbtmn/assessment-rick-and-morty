@@ -1,8 +1,8 @@
 import { combineReducers } from "redux";
-// import charactersReducer from "./characters/reducer";
+import charactersReducer from "./characters/reducer";
 
 const rootReducer = combineReducers({
-    // characters: charactersReducer,
+    characters: charactersReducer,
 });
 
 export type AppState = ReturnType<typeof rootReducer>;

@@ -1,43 +1,48 @@
-import React, { useState } from "react";
+import React, { useRef, useEffect, useState } from "react";
+import { isEmpty } from "lodash";
 import { DataTestId } from "../../constants/DataTestId";
+import { Character } from "../../store/characters/types";
 
 import "./index.scss";
 
 interface SearchBoxProps {
     id?: string;
     className?: string;
+    searchResult: Character[];
     placeholder?: string;
-    onClear: () => void;
+    onChange: (value: string) => void;
     onClick: (value: string) => void;
 }
 
 const SearchBox: React.FunctionComponent<SearchBoxProps> = (props) => {
-    const { id = "searchbox", className = "", placeholder = "", onClear, onClick } = props;
+    const { className = "", searchResult, placeholder = "", onChange, onClick } = props;
+    const refSuggestionsMenu = useRef<HTMLDivElement>(null);
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const results = searchResult.slice(0, 6);
 
     const [inputValue, setInput] = useState<string>("");
-    const [isClear, setClear] = useState<boolean>(false);
 
-    const getClearClassName = () => {
-        return `material-icons search-box__clear-icon${isClear ? "--visible" : ""}`;
-    }
+    useEffect(() => {
+        const checkIfClickedOutside = (e: MouseEvent) => {
+            if (isMenuOpen && refSuggestionsMenu.current && !refSuggestionsMenu.current.contains(e.target as HTMLDivElement)) {
+                setIsMenuOpen(false)
+            }
+        }
+
+        document.addEventListener("mousedown", checkIfClickedOutside)
+
+        return () => {
+            document.removeEventListener("mousedown", checkIfClickedOutside)
+        }
+    }, [isMenuOpen])
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        console.log(results);
         const value: string = e.target.value;
-        if (!isClear) {
-            setClear(true);
-        }
-        if (value.length === 0) {
-            setClear(false);
-        }
         setInput(value);
+        setIsMenuOpen(true);
+        onChange(value);
     }
-
-    const handleClear = (e: React.MouseEvent<HTMLElement>) => {
-        e.preventDefault();
-        setClear(false);
-        setInput("");
-        onClear();
-    };
 
     const handleClick = (e: React.MouseEvent<HTMLElement>) => {
         e.preventDefault();
@@ -51,23 +56,55 @@ const SearchBox: React.FunctionComponent<SearchBoxProps> = (props) => {
         }
     }
 
+    const getShadowInput = () => {
+        if (isEmpty(results) || !isMenuOpen) {
+            return "";
+        } else {
+            if (results[0].name.startsWith(inputValue)) {
+                return results[0].name;
+            } else {
+                return "";
+            }
+        }
+    }
+
+    const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+        const shadowInput: HTMLInputElement = document.querySelector("#search-bar-disabled") as HTMLInputElement || null;
+
+        if (e.code === "ArrowRight") {
+            setInput(shadowInput.value);
+            onChange(shadowInput.value);
+        }
+    };
+
     return <div className={`${className} search-box__wrapper`}>
         <div className="search-box__input-wrapper">
             <input
-                id={id}
+                id="search-bar"
+                list="characters-list"
                 placeholder={placeholder}
-                type="search"
+                type="text"
                 className="search-box__input"
                 value={inputValue}
                 onChange={handleChange}
-                onKeyPress={(e) => handleEnter(e)} />
-            <span className={getClearClassName()} onClick={handleClear}>
-                clear
+                onKeyPress={(e) => handleEnter(e)}
+                onKeyDown={handleKeyDown} />
+            <input
+                type="text"
+                id="search-bar-disabled"
+                readOnly
+                className="search-box__input"
+                value={getShadowInput()}
+            />
+            <span data-testid={DataTestId.SEARCH} className="material-icons search-box__search-icon" onClick={handleClick}>
+                search
             </span>
+            {isMenuOpen ? <div ref={refSuggestionsMenu} className="search-box__result-list" id="characters-list">
+                {results.map((character) =>
+                    <div key={`character-item-${character.id}`}>{character.name}</div>
+                )}
+            </div> : null}
         </div>
-        <span data-testid={DataTestId.SEARCH} className="material-icons search-box__search-icon" onClick={handleClick}>
-            search
-        </span>
     </div>
 };
 

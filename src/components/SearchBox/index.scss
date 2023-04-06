@@ -1,8 +1,41 @@
 @import "../../scss/colors";
 
 .search-box {
-    @mixin icon-base {
-        padding-left: 0.41vw;
+    &__wrapper {
+        display: flex;
+        margin-bottom: 1vh;
+        position: relative;
+    }
+
+    &__result-list {
+        position: absolute;
+        top: calc(100% + 0.05rem);
+    }
+
+    &__input-wrapper {
+        width: 10vw;
+        height: 4vh;
+        align-items: center;
+        background: #fff;
+        border-radius: 5px;
+        position: relative;
+
+        #search-bar {
+            z-index: 2;
+        }
+
+        #search-bar-disabled {
+            z-index: 1;
+            color: gray;
+            cursor: none;
+        }
+    }
+
+    &__search-icon {
+        align-self: center;
+        position: absolute;
+        right: 0.25vw;
+        top: 0.5vh;
         color: $color-black;
 
         &:hover {
@@ -10,42 +43,13 @@
         }
     }
 
-    &__wrapper {
-        display: flex;
-        margin-bottom: 1vh;
-    }
-
-    &__input-wrapper {
-        display: flex;
-        width: 10vw;
-        height: 4vh;
-        align-items: center;
-        background: #fff;
-        border-radius: 5px;
-    }
-
-    &__search-icon {
-        @include icon-base;
-
-        align-self: center;
-    }
-
-    &__clear-icon {
-        display: none;
-
-        &--visible {
-            @include icon-base;
-
-            display: inherit;
-            align-self: center;
-        }
-    }
-
     &__input {
+        position: absolute;
         width: 80%;
         padding: 0.4vw;
         border: none;
         height: 3vh;
+        background-color: transparent;
 
         &:focus-visible {
             outline: none;
