@@ -11,3 +11,9 @@ export const getCharacterById = async (id: string) => {
 
     return axios.get(url);
 }
+
+export const getSingleLocation = async (urlLocation: string) => {
+    const url = `${urlLocation}`;
+
+    return axios.get(url);
+};

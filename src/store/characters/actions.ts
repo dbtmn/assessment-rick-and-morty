@@ -36,7 +36,6 @@ export const fetchCharacterById = (id: string) => async (dispatch: DispatchChara
     }
 };
 
-
 export const fetchCharactersByNameRequest = (): FetchCharactersByNameRequest => ({
     type: FETCH_CHARACTERS_BY_NAME_REQUEST,
 });
