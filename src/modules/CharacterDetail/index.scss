@@ -1,6 +1,21 @@
 @import "../../scss/colors";
 
 .character-detail {
+    &__back {
+        display: flex;
+        align-items: center;
+
+        &-icon {
+            color: $color-fountain-blue;
+            font-size: 2vw;
+        }
+
+        &:hover {
+            color: $color-fountain-blue;
+            cursor: pointer;
+        }
+    }
+
     &__header {
         display: flex;
         margin-bottom: 1vh;
@@ -64,7 +79,7 @@
             grid-template-columns: repeat(2, 30vw);
         }
 
-        &__icon {
+        &__icon, &__back-icon {
             font-size: unset;
         }
     }

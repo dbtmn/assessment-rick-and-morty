@@ -76,7 +76,10 @@ const CharacterDetail: React.FunctionComponent<CharacterDetailProps> = (props) =
     }
 
     return <>
-        <span className="navigation-back" onClick={() => { navigate(-1) }}>Back to Search</span>
+        <div className="character-detail__back">
+            <Icon iconClassName="character-detail__back-icon" iconName="arrow_back" />
+            <span className="navigation-back" onClick={() => { navigate(-1) }}>Back to Search</span>
+        </div>
         <h2>Character Detail</h2>
         {selectedCharacterPending && <Loading />}
         {isError && <Error size={ErrorSize.lg} message="There is an error!" />}
