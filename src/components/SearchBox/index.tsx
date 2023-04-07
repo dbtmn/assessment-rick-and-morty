@@ -39,7 +39,6 @@ const SearchBox: React.FunctionComponent<SearchBoxProps> = (props) => {
     }, [isMenuOpen])
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        console.log(results);
         const value: string = e.target.value;
         setInput(value);
         setIsMenuOpen(true);

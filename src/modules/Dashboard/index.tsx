@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { debounce, isEmpty } from "lodash";
+import { debounce } from "lodash";
 import { AppState } from "../../store/rootReducer";
 import { fetchCharactersByName } from "../../store/characters/actions";
 import { CharactersState } from "../../store/characters/types";
@@ -8,7 +8,6 @@ import mainLogo from '../../../public/rick-and-morty-top-banner.png';
 import Loading from "../../components/Loading";
 import SearchBox from "../../components/SearchBox";
 import Error, { ErrorSize } from "../../shared/Error";
-import NoContent from "../../shared/NoContent";
 
 import "./index.scss";
 
@@ -27,7 +26,6 @@ const Dashboard: React.FunctionComponent<DashboardProps> = (props) => {
     const { error, pending, characters } = charactersState;
 
     const isError = !pending && error;
-    const isNoContent = !pending && !error && characters.length === 0;
 
     const searchCharactersByName = (value: string) => {
         searchDebounced(value);
@@ -48,8 +46,6 @@ const Dashboard: React.FunctionComponent<DashboardProps> = (props) => {
             onClick={(value) => searchCharactersByName(value)} />
         {pending && <Loading />}
         {isError && <Error size={ErrorSize.lg} message="There is an error!" />}
-        {isNoContent && <NoContent message="No data found :(" />}
-        {!isEmpty(characters) && <div>Characters List</div>}
     </>;
 }
 
