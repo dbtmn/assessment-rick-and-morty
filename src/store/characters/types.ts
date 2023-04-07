@@ -49,7 +49,7 @@ export interface CharactersState {
     selectedCharacter: Character;
     selectedCharacterError: string | null;
     episodesPending: boolean;
-    episodes: Episode[];
+    episodes: Episode[] | Episode;
     episodesError: string | null;
 }
 

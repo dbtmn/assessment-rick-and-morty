@@ -126,8 +126,12 @@ const CharacterDetail: React.FunctionComponent<CharacterDetailProps> = (props) =
                     {isEpisodesNoContent && <NoContent message="No data found :(" />}
                     {!isEmpty(episodes) &&
                         <div className="character-detail__episodes-wrapper">
-                            {episodes.map((episode: Episode) => <EpisodeInformationItem key={`episode-item-${episode.id}`} episode={episode} />)}
-                        </div>}
+                            {typeof episodes === 'object' ?
+                                <EpisodeInformationItem key={`episode-item-${(episodes as Episode).id}`} episode={(episodes as Episode)} /> :
+                                (episodes as Episode[]).map((episode: Episode) => <EpisodeInformationItem key={`episode-item-${episode.id}`} episode={episode} />)
+                            }
+                        </div>
+                    }
                 </div>
             </>}
     </>;
