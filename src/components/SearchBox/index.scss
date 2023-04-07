@@ -3,7 +3,7 @@
 .search-box {
     &__wrapper {
         display: flex;
-        margin-bottom: 1vh;
+        margin: 2vh 0;
         position: relative;
     }
 
@@ -50,6 +50,7 @@
         background: #fff;
         border-radius: 5px;
         position: relative;
+        border: 2px solid $color-fountain-blue;
 
         #search-bar {
             z-index: 2;
@@ -67,7 +68,7 @@
         position: absolute;
         right: 0.25vw;
         top: 0.5vh;
-        color: $color-black;
+        color: $color-fountain-blue;;
 
         &:hover {
             cursor: pointer;
@@ -100,6 +101,20 @@
         &::placeholder {
             color: $color-gray;
             font-weight: 600;
+        }
+    }
+
+    @media (max-width: 1080px) {
+        &__result-list,
+        &__input-wrapper {
+            width: 100%;
+        }
+    }
+
+    @media (min-width: 1080px) and (max-width: 1200px) {
+        &__result-list,
+        &__input-wrapper {
+            width: 50%;
         }
     }
 }

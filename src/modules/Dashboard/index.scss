@@ -1,4 +1,8 @@
 .dashboard {
+    &__banner {
+        width: 100%;
+        height: auto;
+    }
 
     &__searchbox {
         justify-content: center;

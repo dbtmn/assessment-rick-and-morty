@@ -4,6 +4,7 @@ import { debounce, isEmpty } from "lodash";
 import { AppState } from "../../store/rootReducer";
 import { fetchCharactersByName } from "../../store/characters/actions";
 import { CharactersState } from "../../store/characters/types";
+import mainLogo from '../../../public/rick-and-morty-top-banner.png';
 import Loading from "../../components/Loading";
 import SearchBox from "../../components/SearchBox";
 import Error, { ErrorSize } from "../../shared/Error";
@@ -39,7 +40,7 @@ const Dashboard: React.FunctionComponent<DashboardProps> = (props) => {
     }, 500);
 
     return <>
-        <h2>Welcome to Rick and Morty Characters List!</h2>
+        <img className="dashboard__banner" src={mainLogo} alt="rickMortyBanner"/>
         <SearchBox
             className="dashboard__searchbox"
             searchResult={characters}
