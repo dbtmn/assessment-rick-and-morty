@@ -1,5 +1,35 @@
 @import "../../scss/colors";
 
 .character-detail {
-    display: flex;
+    &__section {
+        padding: 2vw;
+        margin-bottom: 3vh;
+        background-color: $color-white;
+    }
+
+    &__image {
+        width: 50%;
+        padding-right: 2vw;
+
+        img {
+            width: 50%;
+            height: auto;
+        }
+    }
+
+    &__information-details {
+        display: grid;
+        grid-template-columns: repeat(2, 5vw);
+        grid-auto-rows: 5vh;
+        padding-left: 2vw;
+    }
+
+    &__information-wrapper {
+        display: flex;
+    }
+
+    &__information-title {
+        font-weight: 700;
+        padding-right: 0.5vw;
+    }
 }
