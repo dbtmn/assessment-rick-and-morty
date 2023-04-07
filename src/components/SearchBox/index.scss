@@ -68,11 +68,7 @@
         position: absolute;
         right: 0.25vw;
         top: 0.5vh;
-        color: $color-fountain-blue;;
-
-        &:hover {
-            cursor: pointer;
-        }
+        color: $color-fountain-blue;
     }
 
     &__input {

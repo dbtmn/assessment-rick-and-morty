@@ -42,8 +42,7 @@ const Dashboard: React.FunctionComponent<DashboardProps> = (props) => {
         <SearchBox
             className="dashboard__searchbox"
             searchResult={characters}
-            onChange={(value) => searchCharactersByName(value)}
-            onClick={(value) => searchCharactersByName(value)} />
+            onChange={(value) => searchCharactersByName(value)} />
         {pending && <Loading />}
         {isError && <Error size={ErrorSize.lg} message="There is an error!" />}
     </>;

@@ -12,11 +12,10 @@ interface SearchBoxProps {
     searchResult: Character[];
     placeholder?: string;
     onChange: (value: string) => void;
-    onClick: (value: string) => void;
 }
 
 const SearchBox: React.FunctionComponent<SearchBoxProps> = (props) => {
-    const { className = "", searchResult, placeholder = "", onChange, onClick } = props;
+    const { className = "", searchResult, placeholder = "", onChange } = props;
     const refSuggestionsMenu = useRef<HTMLDivElement>(null);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const navigate = useNavigate();
@@ -43,18 +42,6 @@ const SearchBox: React.FunctionComponent<SearchBoxProps> = (props) => {
         setInput(value);
         setIsMenuOpen(true);
         onChange(value);
-    }
-
-    const handleClick = (e: React.MouseEvent<HTMLElement>) => {
-        e.preventDefault();
-        onClick(inputValue);
-    };
-
-    const handleEnter = (e: React.KeyboardEvent<HTMLInputElement>) => {
-        if (e.code === "Enter") {
-            e.preventDefault();
-            onClick(inputValue);
-        }
     }
 
     const getShadowInput = () => {
@@ -88,6 +75,7 @@ const SearchBox: React.FunctionComponent<SearchBoxProps> = (props) => {
     return <div className={`${className} search-box__wrapper`}>
         <div className="search-box__input-wrapper">
             <input
+                data-testid={DataTestId.SEARCH}
                 id="search-bar"
                 list="characters-list"
                 placeholder={placeholder}
@@ -95,7 +83,6 @@ const SearchBox: React.FunctionComponent<SearchBoxProps> = (props) => {
                 className="search-box__input"
                 value={inputValue}
                 onChange={handleChange}
-                onKeyPress={(e) => handleEnter(e)}
                 onKeyDown={handleKeyDown} />
             <input
                 type="text"
@@ -104,16 +91,16 @@ const SearchBox: React.FunctionComponent<SearchBoxProps> = (props) => {
                 className="search-box__input"
                 value={getShadowInput()}
             />
-            <span data-testid={DataTestId.SEARCH} className="material-icons search-box__search-icon" onClick={handleClick}>
+            <span className="material-icons search-box__search-icon">
                 search
             </span>
             {isMenuOpen ? <div ref={refSuggestionsMenu} className="search-box__result-list" id="characters-list">
                 {results.map((character) => <div key={`character-item-${character.id}`} className="search-box-result__item">
-                    <div className="search-box-result__details" onClick={() => handleRoute(character.id)}>
+                    <div data-testid={DataTestId.NAVIGATE_CHARACTER_DETAIL} className="search-box-result__details" onClick={() => handleRoute(character.id)}>
                         {character.image && <div className="search-box-result__image">
                             <img src={character.image} />
                         </div>}
-                        <div>{character.name}</div></div>
+                        <div data-testid={DataTestId.NAME}>{character.name}</div></div>
                 </div>
                 )}
             </div> : null}
