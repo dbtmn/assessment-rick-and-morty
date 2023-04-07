@@ -3,11 +3,20 @@
 .app {
   min-height: 100vh;
   padding-top: 5vh;
-  background-color: $color-light-gray;
+  background-color: $color-aqua-spring;
   display: flex;
   justify-content: center;
 
   &__container {
     padding: 2.7vw;
+  }
+
+  .navigation-back {
+    font-weight: 600;
+
+    &:hover {
+      color: $color-fountain-blue;
+      cursor: pointer;
+    }
   }
 }

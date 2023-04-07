@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { isEmpty } from "lodash";
 import { AppState } from "../../store/rootReducer";
 import { CharactersState, Episode } from "../../store/characters/types";
@@ -29,6 +29,7 @@ type CharacterDetailProps = DispatchProps & StateProps;
 
 const CharacterDetail: React.FunctionComponent<CharacterDetailProps> = (props) => {
     const location = useLocation();
+    const navigate = useNavigate();
 
     const { fetchCharacterById, fetchSingleLocation, fetchMultipleEpisodes, charactersState, locationState } = props;
 
@@ -75,6 +76,7 @@ const CharacterDetail: React.FunctionComponent<CharacterDetailProps> = (props) =
     }
 
     return <>
+        <span className="navigation-back" onClick={() => { navigate(-1) }}>Back to Search</span>
         <h2>Character Detail</h2>
         {selectedCharacterPending && <Loading />}
         {isError && <Error size={ErrorSize.lg} message="There is an error!" />}
