@@ -1,6 +1,12 @@
 @import "../../scss/colors";
 
 .character-detail {
+    &__header {
+        display: flex;
+        margin-bottom: 1vh;
+        align-items: center;
+    }
+
     &__section {
         padding: 2vw;
         margin-bottom: 3vh;
@@ -20,7 +26,7 @@
     &__information-details,
     &__location-details {
         display: grid;
-        grid-template-columns: repeat(2, 5vw);
+        grid-template-columns: repeat(2, 10vw);
         grid-auto-rows: 5vh;
     }
 
@@ -40,5 +46,25 @@
 
     &__episode-item {
         margin-bottom: 0.4vh;
-    }    
+    }
+
+    &__icon {
+        margin-right: 2vw;
+        font-size: 3vw;
+    }
+
+    @media (max-width: 1080px) {
+        &__information-wrapper {
+            flex-direction: column;
+        }
+
+        &__information-details,
+        &__location-details {
+            grid-template-columns: repeat(2, 30vw);
+        }
+
+        &__icon {
+            font-size: unset;
+        }
+    }
 }

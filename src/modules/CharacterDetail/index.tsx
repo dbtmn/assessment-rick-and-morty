@@ -7,6 +7,7 @@ import { CharactersState, Episode } from "../../store/characters/types";
 import { LocationState } from "../../store/location/types";
 import { fetchCharacterById, fetchMultipleEpisodes } from "../../store/characters/actions";
 import { fetchSingleLocation } from "../../store/location/actions";
+import Icon from "../../components/Icon";
 import Loading from "../../components/Loading";
 import Error, { ErrorSize } from "../../shared/Error";
 import NoContent from "../../shared/NoContent";
@@ -94,31 +95,33 @@ const CharacterDetail: React.FunctionComponent<CharacterDetailProps> = (props) =
                     </div>
                 </div>
                 <div className="character-detail__section">
-                    <h2>Origin and location</h2>
+                    <div className="character-detail__header">
+                        <Icon iconClassName="character-detail__icon" iconName="place" />
+                        <h2>Origin and location</h2>
+                    </div>
                     {locationPending && <Loading />}
                     {isLocationError && <Error size={ErrorSize.lg} message="There is an error!" />}
                     {isLocationNoContent && <NoContent message="No data found :(" />}
                     {!isEmpty(characterLocation) &&
-                        <div className="character-detail__location-wrapper">
-                            <div className="character-detail__location-details">
-                                <CharacterInformationItem title="Name" informationValue={characterLocation.name} />
-                                <CharacterInformationItem title="Type" informationValue={characterLocation.type} />
-                                <CharacterInformationItem title="Dimension" informationValue={characterLocation.dimension} />
-                                <CharacterInformationItem title="Number of residents" informationValue={characterLocation.residents.length} />
-                            </div>
-                        </div>}
+                        <div className="character-detail__location-details">
+                            <CharacterInformationItem title="Name" informationValue={characterLocation.name} />
+                            <CharacterInformationItem title="Type" informationValue={characterLocation.type} />
+                            <CharacterInformationItem title="Dimension" informationValue={characterLocation.dimension} />
+                            <CharacterInformationItem title="Number of residents" informationValue={characterLocation.residents.length} />
+                        </div>
+                    }
                 </div>
                 <div className="character-detail__section">
-                    <h2>Name of the chapters</h2>
+                    <div className="character-detail__header">
+                        <Icon iconClassName="character-detail__icon" iconName="play_circle" />
+                        <h2>Name of the chapters</h2>
+                    </div>
                     {episodesPending && <Loading />}
                     {isEpisodesError && <Error size={ErrorSize.lg} message="There is an error!" />}
                     {isEpisodesNoContent && <NoContent message="No data found :(" />}
                     {!isEmpty(episodes) &&
                         <div className="character-detail__episodes-wrapper">
-                            {episodes.map((episode: Episode) => <EpisodeInformationItem key={`episode-item-${episode.id}`} episode={episode} />)
-
-                            }
-                            
+                            {episodes.map((episode: Episode) => <EpisodeInformationItem key={`episode-item-${episode.id}`} episode={episode} />)}
                         </div>}
                 </div>
             </>}
