@@ -17,3 +17,9 @@ export const getSingleLocation = async (urlLocation: string) => {
 
     return axios.get(url);
 };
+
+export const getMultipleEpisodes = async (episodes: string) => {
+    const url = `https://rickandmortyapi.com/api/episode/${episodes}`;
+
+    return axios.get(url);
+};

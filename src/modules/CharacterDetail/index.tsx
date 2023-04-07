@@ -3,9 +3,9 @@ import { connect } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { isEmpty } from "lodash";
 import { AppState } from "../../store/rootReducer";
-import { CharactersState } from "../../store/characters/types";
+import { CharactersState, Episode } from "../../store/characters/types";
 import { LocationState } from "../../store/location/types";
-import { fetchCharacterById } from "../../store/characters/actions";
+import { fetchCharacterById, fetchMultipleEpisodes } from "../../store/characters/actions";
 import { fetchSingleLocation } from "../../store/location/actions";
 import Loading from "../../components/Loading";
 import Error, { ErrorSize } from "../../shared/Error";
@@ -16,6 +16,7 @@ import "./index.scss";
 interface DispatchProps {
     fetchCharacterById: (id: string) => Promise<void>;
     fetchSingleLocation: (urlLocation: string) => Promise<void>;
+    fetchMultipleEpisodes: (episodes: string) => Promise<void>;
 }
 
 interface StateProps {
@@ -28,9 +29,9 @@ type CharacterDetailProps = DispatchProps & StateProps;
 const CharacterDetail: React.FunctionComponent<CharacterDetailProps> = (props) => {
     const location = useLocation();
 
-    const { fetchCharacterById, fetchSingleLocation, charactersState, locationState } = props;
+    const { fetchCharacterById, fetchSingleLocation, fetchMultipleEpisodes, charactersState, locationState } = props;
 
-    const { selectedCharacterPending, selectedCharacter, selectedCharacterError } = charactersState;
+    const { selectedCharacterPending, selectedCharacter, selectedCharacterError, episodesPending, episodes, episodesError } = charactersState;
     const { pending: locationPending, error: locationError, location: characterLocation } = locationState;
 
     const isError = !selectedCharacterPending && selectedCharacterError;
@@ -38,6 +39,9 @@ const CharacterDetail: React.FunctionComponent<CharacterDetailProps> = (props) =
 
     const isLocationError = !locationPending && locationError;
     const isLocationNoContent = !locationPending && !locationError && isEmpty(characterLocation);
+
+    const isEpisodesError = !episodesPending && episodesError;
+    const isEpisodesNoContent = !episodesPending && !episodesError && isEmpty(episodes);
 
     useEffect(() => {
         const params = new URLSearchParams(location.search);
@@ -48,12 +52,26 @@ const CharacterDetail: React.FunctionComponent<CharacterDetailProps> = (props) =
 
     useEffect(() => {
         if (!isEmpty(selectedCharacter)) {
-            const { location } = selectedCharacter;
+            const { location, episode } = selectedCharacter;
             const { url } = location;
+            const episodes = getEpisodes(episode);
 
             fetchSingleLocation(url);
+            fetchMultipleEpisodes(episodes);
         }
-    }, [selectedCharacter, fetchSingleLocation]);
+    }, [selectedCharacter, fetchSingleLocation, fetchMultipleEpisodes]);
+
+    const getEpisodes = (episode: string[]) => {
+        let episodeIds = "";
+
+        episode.map((episodeStr) => {
+            const splittedEpisode = episodeStr.split("/");
+            const episodeId = splittedEpisode[splittedEpisode.length - 1];
+            episodeIds = episodeIds + episodeId + ",";
+        });
+
+        return episodeIds.slice(0, -1);
+    }
 
     return <>
         <h2>Character Detail</h2>
@@ -80,14 +98,34 @@ const CharacterDetail: React.FunctionComponent<CharacterDetailProps> = (props) =
                     {locationPending && <Loading />}
                     {isLocationError && <Error size={ErrorSize.lg} message="There is an error!" />}
                     {isLocationNoContent && <NoContent message="No data found :(" />}
-                    {!isEmpty(characterLocation) && <div>{characterLocation.name}</div>}
+                    {!isEmpty(characterLocation) &&
+                        <div className="character-detail__location-wrapper">
+                            <div className="character-detail__location-details">
+                                <CharacterInformationItem title="Name" informationValue={characterLocation.name} />
+                                <CharacterInformationItem title="Type" informationValue={characterLocation.type} />
+                                <CharacterInformationItem title="Dimension" informationValue={characterLocation.dimension} />
+                                <CharacterInformationItem title="Number of residents" informationValue={characterLocation.residents.length} />
+                            </div>
+                        </div>}
                 </div>
-                <div className="character-detail__section">Name of the chapters</div>
+                <div className="character-detail__section">
+                    <h2>Name of the chapters</h2>
+                    {episodesPending && <Loading />}
+                    {isEpisodesError && <Error size={ErrorSize.lg} message="There is an error!" />}
+                    {isEpisodesNoContent && <NoContent message="No data found :(" />}
+                    {!isEmpty(episodes) &&
+                        <div className="character-detail__episodes-wrapper">
+                            {episodes.map((episode: Episode) => <EpisodeInformationItem key={`episode-item-${episode.id}`} episode={episode} />)
+
+                            }
+                            
+                        </div>}
+                </div>
             </>}
     </>;
 }
 
-const CharacterInformationItem = (props: { title: string, informationValue: string }) => {
+const CharacterInformationItem = (props: { title: string, informationValue: string | number }) => {
     const { title, informationValue } = props;
 
     return <>
@@ -95,6 +133,12 @@ const CharacterInformationItem = (props: { title: string, informationValue: stri
         <span>{informationValue}</span>
     </>
 }
+
+const EpisodeInformationItem = (props: { episode: Episode }) => {
+    const { episode } = props;
+
+    return <div className="character-detail__episode-item">{`${episode.name} (${episode.episode})`}</div>;
+};
 
 const mapStateToProps = (state: AppState) => {
     return {
@@ -105,7 +149,8 @@ const mapStateToProps = (state: AppState) => {
 
 const mapDispatchToProps = {
     fetchCharacterById,
-    fetchSingleLocation
+    fetchSingleLocation,
+    fetchMultipleEpisodes
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(CharacterDetail);

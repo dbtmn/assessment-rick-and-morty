@@ -1,8 +1,8 @@
 import { AxiosError } from "axios";
-import { getCharactersByName, getCharacterById } from "../../api";
+import { getCharactersByName, getCharacterById, getMultipleEpisodes } from "../../api";
 
-import { DispatchCharactersType, FetchCharactersByNameRequest, FetchCharacterDetailRequest, FetchCharactersSuccessPayload, FetchCharacterDetailSuccessPayload, FetchCharacterDetailFailurePayload, FetchCharactersFailurePayload, FetchCharactersSuccess, FetchCharacterDetailSuccess, FetchCharactersFailure, FetchCharacterDetailFailure } from "./types";
-import { FETCH_CHARACTERS_BY_NAME_REQUEST, FETCH_CHARACTER_DETAIL_REQUEST, FETCH_CHARACTER_DETAIL_SUCCESS, FETCH_CHARACTERS_SUCCESS, FETCH_CHARACTERS_FAILURE, FETCH_CHARACTER_DETAIL_FAILURE } from "./actionTypes";
+import { DispatchCharactersType, FetchCharactersByNameRequest, FetchCharacterDetailRequest, FetchMultipleEpisodesRequest, FetchCharactersSuccessPayload, FetchCharacterDetailSuccessPayload, FetchMultipleEpisodesSuccessPayload, FetchCharacterDetailFailurePayload, FetchCharactersFailurePayload, FetchMultipleEpisodesFailurePayload, FetchCharactersSuccess, FetchCharacterDetailSuccess, FetchMultipleEpisodesSuccess, FetchCharactersFailure, FetchCharacterDetailFailure, FetchMultipleEpisodesFailure } from "./types";
+import { FETCH_CHARACTERS_BY_NAME_REQUEST, FETCH_CHARACTER_DETAIL_REQUEST, FETCH_MULTIPLE_EPISODES_REQUEST, FETCH_CHARACTER_DETAIL_SUCCESS, FETCH_CHARACTERS_SUCCESS, FETCH_MULTIPLE_EPISODES_SUCCESS, FETCH_CHARACTERS_FAILURE, FETCH_CHARACTER_DETAIL_FAILURE, FETCH_MULTIPLE_EPISODES_FAILURE } from "./actionTypes";
 
 export const fetchCharactersByName = (searchName: string) => async (dispatch: DispatchCharactersType) => {
     try {
@@ -36,12 +36,29 @@ export const fetchCharacterById = (id: string) => async (dispatch: DispatchChara
     }
 };
 
+export const fetchMultipleEpisodes = (episodes: string) => async (dispatch: DispatchCharactersType) => {
+    try {
+        dispatch(fetchMultipleEpisodesRequest());
+        return getMultipleEpisodes(episodes).then((result) => {
+            const episodesResult = result.data.hasOwnProperty("info") ? [] : result.data;
+            dispatch(fetchMultipleEpisodesSuccess({ episodes: episodesResult }));
+        });
+    } catch (err) {
+        dispatch(fetchMultipleEpisodesFailure({ episodesError: (err as AxiosError).message }));
+        return Promise.reject(err);
+    }
+};
+
 export const fetchCharactersByNameRequest = (): FetchCharactersByNameRequest => ({
     type: FETCH_CHARACTERS_BY_NAME_REQUEST,
 });
 
 export const fetchCharacterDetailRequest = (): FetchCharacterDetailRequest => ({
     type: FETCH_CHARACTER_DETAIL_REQUEST,
+});
+
+export const fetchMultipleEpisodesRequest = (): FetchMultipleEpisodesRequest => ({
+    type: FETCH_MULTIPLE_EPISODES_REQUEST,
 });
 
 export const fetchCharactersSuccess = (
@@ -58,6 +75,13 @@ export const fetchCharacterDetailSuccess = (
     payload,
 });
 
+export const fetchMultipleEpisodesSuccess = (
+    payload: FetchMultipleEpisodesSuccessPayload
+): FetchMultipleEpisodesSuccess => ({
+    type: FETCH_MULTIPLE_EPISODES_SUCCESS,
+    payload,
+});
+
 export const fetchCharacterDetailFailure = (
     payload: FetchCharacterDetailFailurePayload
 ): FetchCharacterDetailFailure => ({
@@ -69,5 +93,12 @@ export const fetchCharactersFailure = (
     payload: FetchCharactersFailurePayload
 ): FetchCharactersFailure => ({
     type: FETCH_CHARACTERS_FAILURE,
+    payload,
+});
+
+export const fetchMultipleEpisodesFailure = (
+    payload: FetchMultipleEpisodesFailurePayload
+): FetchMultipleEpisodesFailure => ({
+    type: FETCH_MULTIPLE_EPISODES_FAILURE,
     payload,
 });
