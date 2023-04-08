@@ -16,70 +16,14 @@
         }
     }
 
-    &__header {
-        display: flex;
-        margin-bottom: 1vh;
-        align-items: center;
-    }
-
     &__section {
         padding: 2vw;
         margin-bottom: 3vh;
         background-color: $color-white;
     }
 
-    &__image {
-        width: 50%;
-        padding-right: 2vw;
-
-        img {
-            width: 50%;
-            height: auto;
-        }
-    }
-
-    &__information-details,
-    &__location-details {
-        display: grid;
-        grid-template-columns: repeat(2, 10vw);
-        grid-auto-rows: 5vh;
-    }
-
-    &__information-wrapper {
-        display: flex;
-    }
-
-    &__information-title {
-        font-weight: 700;
-        padding-right: 0.5vw;
-    }
-
-    &__episodes-wrapper {
-        display: inline-flex;
-        flex-direction: column;
-    }
-
-    &__episode-item {
-        margin-bottom: 0.4vh;
-    }
-
-    &__icon {
-        color: $color-fountain-blue;
-        margin-right: 2vw;
-        font-size: 3vw;
-    }
-
     @media (max-width: 1080px) {
-        &__information-wrapper {
-            flex-direction: column;
-        }
-
-        &__information-details,
-        &__location-details {
-            grid-template-columns: repeat(2, 30vw);
-        }
-
-        &__icon, &__back-icon {
+        &__back-icon {
             font-size: unset;
         }
     }

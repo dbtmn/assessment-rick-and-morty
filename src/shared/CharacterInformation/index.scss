@@ -1,0 +1,36 @@
+.character-information {
+    &__wrapper {
+        display: flex;
+    }
+
+    &__image {
+        width: 50%;
+        padding-right: 2vw;
+
+        img {
+            width: 50%;
+            height: auto;
+        }
+    }
+
+    &__details {
+        display: grid;
+        grid-template-columns: repeat(2, 10vw);
+        grid-auto-rows: 5vh;
+    }
+
+    &__detail-title {
+        font-weight: 700;
+        padding-right: 0.5vw;
+    }
+
+    @media (max-width: 1080px) {
+        &__wrapper {
+            flex-direction: column;
+        }
+
+        &__details {
+            grid-template-columns: repeat(2, 30vw);
+        }
+    }
+}

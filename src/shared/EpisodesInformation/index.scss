@@ -1,0 +1,10 @@
+.episodes-information {
+    &__wrapper {
+        display: inline-flex;
+        flex-direction: column;
+    }
+
+    &__item {
+        margin-bottom: 0.4vh;
+    }
+}

@@ -1,0 +1,21 @@
+@import "../../scss/colors";
+
+.header {
+    &__wrapper {
+        display: flex;
+        margin-bottom: 1vh;
+        align-items: center;
+    }
+
+    &__icon {
+        color: $color-fountain-blue;
+        margin-right: 2vw;
+        font-size: 3vw;
+    }
+
+    @media (max-width: 1080px) {
+        &__icon {
+            font-size: unset;
+        }
+    }
+}

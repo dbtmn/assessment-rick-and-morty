@@ -3,13 +3,16 @@ import { connect } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import { isEmpty } from "lodash";
 import { AppState } from "../../store/rootReducer";
-import { CharactersState, Episode } from "../../store/characters/types";
+import { CharactersState } from "../../store/characters/types";
 import { LocationState } from "../../store/location/types";
 import { fetchCharacterById, fetchMultipleEpisodes } from "../../store/characters/actions";
 import { fetchSingleLocation } from "../../store/location/actions";
 import Icon from "../../components/Icon";
 import Loading from "../../components/Loading";
+import CharacterInformation from "../../shared/CharacterInformation";
+import EpisodesInformation from "../../shared/EpisodesInformation";
 import Error, { ErrorSize } from "../../shared/Error";
+import LocationInformation from "../../shared/LocationInformation";
 import NoContent from "../../shared/NoContent";
 
 import "./index.scss";
@@ -34,16 +37,9 @@ const CharacterDetail: React.FunctionComponent<CharacterDetailProps> = (props) =
     const { fetchCharacterById, fetchSingleLocation, fetchMultipleEpisodes, charactersState, locationState } = props;
 
     const { selectedCharacterPending, selectedCharacter, selectedCharacterError, episodesPending, episodes, episodesError } = charactersState;
-    const { pending: locationPending, error: locationError, location: characterLocation } = locationState;
 
     const isError = !selectedCharacterPending && selectedCharacterError;
     const isNoContent = !selectedCharacterPending && !selectedCharacterError && isEmpty(selectedCharacter);
-
-    const isLocationError = !locationPending && locationError;
-    const isLocationNoContent = !locationPending && !locationError && isEmpty(characterLocation);
-
-    const isEpisodesError = !episodesPending && episodesError;
-    const isEpisodesNoContent = !episodesPending && !episodesError && isEmpty(episodes);
 
     useEffect(() => {
         const params = new URLSearchParams(location.search);
@@ -87,70 +83,17 @@ const CharacterDetail: React.FunctionComponent<CharacterDetailProps> = (props) =
         {!isEmpty(selectedCharacter) &&
             <>
                 <div className="character-detail__section">
-                    {selectedCharacter.name.length !== 0 && <h2>{selectedCharacter.name}</h2>}
-                    <div className="character-detail__information-wrapper">
-                        {selectedCharacter.image && <div className="character-detail__image">
-                            <img src={selectedCharacter.image} />
-                        </div>}
-                        <div className="character-detail__information-details">
-                            <CharacterInformationItem title="Status" informationValue={selectedCharacter.status} />
-                            <CharacterInformationItem title="Species" informationValue={selectedCharacter.species} />
-                            <CharacterInformationItem title="Gender" informationValue={selectedCharacter.gender} />
-                        </div>
-                    </div>
+                    <CharacterInformation selectedCharacter={selectedCharacter} />
                 </div>
                 <div className="character-detail__section">
-                    <div className="character-detail__header">
-                        <Icon iconClassName="character-detail__icon" iconName="place" />
-                        <h2>Origin and location</h2>
-                    </div>
-                    {locationPending && <Loading />}
-                    {isLocationError && <Error size={ErrorSize.lg} message="There is an error!" />}
-                    {isLocationNoContent && <NoContent message="No data found :(" />}
-                    {!isEmpty(characterLocation) &&
-                        <div className="character-detail__location-details">
-                            <CharacterInformationItem title="Name" informationValue={characterLocation.name} />
-                            <CharacterInformationItem title="Type" informationValue={characterLocation.type} />
-                            <CharacterInformationItem title="Dimension" informationValue={characterLocation.dimension} />
-                            <CharacterInformationItem title="Number of residents" informationValue={characterLocation.residents.length} />
-                        </div>
-                    }
+                    <LocationInformation locationState={locationState} />
                 </div>
                 <div className="character-detail__section">
-                    <div className="character-detail__header">
-                        <Icon iconClassName="character-detail__icon" iconName="play_circle" />
-                        <h2>Name of the chapters</h2>
-                    </div>
-                    {episodesPending && <Loading />}
-                    {isEpisodesError && <Error size={ErrorSize.lg} message="There is an error!" />}
-                    {isEpisodesNoContent && <NoContent message="No data found :(" />}
-                    {!isEmpty(episodes) &&
-                        <div className="character-detail__episodes-wrapper">
-                            {typeof episodes === 'object' ?
-                                <EpisodeInformationItem key={`episode-item-${(episodes as Episode).id}`} episode={(episodes as Episode)} /> :
-                                (episodes as Episode[]).map((episode: Episode) => <EpisodeInformationItem key={`episode-item-${episode.id}`} episode={episode} />)
-                            }
-                        </div>
-                    }
+                    <EpisodesInformation pending={episodesPending} episodes={episodes} error={episodesError} />
                 </div>
             </>}
     </>;
 }
-
-const CharacterInformationItem = (props: { title: string, informationValue: string | number }) => {
-    const { title, informationValue } = props;
-
-    return <>
-        <span className="character-detail__information-title">{title}</span>
-        <span>{informationValue}</span>
-    </>
-}
-
-const EpisodeInformationItem = (props: { episode: Episode }) => {
-    const { episode } = props;
-
-    return <div className="character-detail__episode-item">{`${episode.name} (${episode.episode})`}</div>;
-};
 
 const mapStateToProps = (state: AppState) => {
     return {
