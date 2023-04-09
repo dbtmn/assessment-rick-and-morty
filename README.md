@@ -1,7 +1,7 @@
 # Implementation of a Rick and Morty list application by Dila ONGUN
 
 This app is created via [Create React App](https://create-react-app.dev/).
-Shows a list of Rick and Morty characters.
+Searches Rick and Morty characters.
 
 # Requirements
 
@@ -78,6 +78,7 @@ To test the app, run the following command:
 # Further Improvements
 
 - Additional eslint configurations might be useful in future.
+- Additional features such as showing a list of favourite characters, filtering characters/locations.
 
 # About Structure
 
@@ -98,6 +99,25 @@ For CSS classNames, BEM naming convention is preferred.
 
 All implementation assumes this application gets bigger. So, I focused on splitting everything into pieces.
 
+To support clean code principle, I splitted the code and seperated into files when it starts to repeat. (for ex. CharacterInformationItem.tsx is a subcomponent in [CharacterInformation folder](https://github.com/dbtmn/assessment-rick-and-morty/tree/main/src/shared/CharacterInformation).)
+If I assume there is no possibility that a subcomponent is used by other components, then I did not place in a seperate file. (for ex. [LocationInformationItem](https://github.com/dbtmn/assessment-rick-and-morty/blob/dbf06d7d03a0ac289b61b57bcf1af015722d7922/src/shared/LocationInformation/index.tsx#L39) in shared/LocationInformation folder)
 
 # About features
 
+User has ability to access two different pages. <br /> User accesses Dashboard page as home page. In Dashboard page:
+- A banner image and a search box is available.
+- User searches a character by name.
+    - First 5 suggestions are visible.
+    - The first suggestion is visible inside of the search box.
+    - Suggestions are shown under the search box.
+    - If user clicks outside of the suggestions, suggestions are closed.
+    - Live search is performed in each 500 ms.
+    - If user presses right arrow button, suggested word is searched.
+- User clicks one of the suggestions and user is navigated to Character Detail page.
+In Character Detail page:
+There are details of the character.
+- On the top, there are details such as status, species, gender and an image of the character.
+- In the middle, there are details such as origin, location, dimension, number of residents.
+- At the bottom, there are chapters the character is featured on.
+
+For both of the pages, error and loading designs are available.

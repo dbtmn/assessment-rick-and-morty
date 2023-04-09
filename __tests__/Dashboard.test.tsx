@@ -132,11 +132,4 @@ test('Navigate to Character Detail successfully', async () => {
     const characterDetailHeader = await waitFor(() => getByText("Character Detail"));
 
     expect(characterDetailHeader).toBeInTheDocument();
-
-    // const mealListName = await waitFor(() => getByTestId(DataTestId.MEAL_LIST_NAME));
-    // expect(mealListName).toBeInTheDocument();
-
-    // fireEvent.click(getAllByTestId(DataTestId.NAVIGATE_CHARACTER_DETAIL)[0]);
-    // const mealDetailHeader = await waitFor(() => getByText("Meal Detail"));
-    // expect(mealDetailHeader).toBeInTheDocument();
 });
