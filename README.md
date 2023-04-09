@@ -113,9 +113,10 @@ User has ability to access two different pages. <br /> User accesses Dashboard p
     - If user clicks outside of the suggestions, suggestions are closed.
     - Live search is performed in each 500 ms.
     - If user presses right arrow button, suggested word is searched.
-- User clicks one of the suggestions and user is navigated to Character Detail page.
-In Character Detail page:
-There are details of the character.
+- User clicks one of the suggestions and user is navigated to Character Detail page. <br />
+
+In Character Detail page: <br />
+There are details of the character. <br />
 - On the top, there are details such as status, species, gender and an image of the character.
 - In the middle, there are details such as origin, location, dimension, number of residents.
 - At the bottom, there are chapters the character is featured on.
