@@ -4,7 +4,7 @@ import { debounce } from "lodash";
 import { AppState } from "../../store/rootReducer";
 import { fetchCharactersByName } from "../../store/characters/actions";
 import { CharactersState } from "../../store/characters/types";
-import mainLogo from '../../../public/rick-and-morty-top-banner.png';
+import mainLogo from '../../../public/ricky.png';
 import Loading from "../../components/Loading";
 import SearchBox from "../../components/SearchBox";
 import Error, { ErrorSize } from "../../shared/Error";
@@ -38,7 +38,7 @@ const Dashboard: React.FunctionComponent<DashboardProps> = (props) => {
     }, 500);
 
     return <>
-        <img className="dashboard__banner" src={mainLogo} alt="rickMortyBanner"/>
+        <img className="dashboard__banner" src={mainLogo} alt="rickMortyBanner" />
         <SearchBox
             className="dashboard__searchbox"
             searchResult={characters}

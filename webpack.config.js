@@ -20,9 +20,9 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /\.jsx?$/,
+                test: /\.(js|jsx)$/,
                 exclude: /node_modules/,
-                loader: 'babel-loader'
+                use: 'babel-loader',
             },
             {
                 test: /\.tsx?$/,
@@ -63,11 +63,6 @@ module.exports = {
                 ]
             },
             {
-                test: /\.js$/,
-                exclude: /node_modules/,
-                use: "babel-loader"
-            },
-            {
                 test: /\.css$/,
                 exclude: /node_modules/,
                 use: ["style-loader", "css-loader"]
@@ -86,7 +81,7 @@ module.exports = {
             },
         ]
     }, resolve: {
-        extensions: ['.tsx', '.ts', '.js', '.scss'],
+        extensions: ['.tsx', '.ts', '.js', '.scss', '.png', '.jpg', '.jpeg', '.svg'],
     },
     plugins: [
         new HtmlWebpackPlugin({
